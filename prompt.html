@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Виселица</title>
+</head>
+
+<body>
+  <canvas id="canvas"width="500"height="500"></canvas>
+
+  <script>
+
+  var canvas = document.getElementById("canvas");
+  var ctx = canvas.getContext("2d");
+
+    var bodyPart = function () {
+      if (chances === 4) {
+        ctx.strokeRect(50, 10, 20, 20);
+        ctx.strokeRect(60, 30, 0, 40);
+      }
+      if (chances === 3) {
+        ctx.beginPath();
+        ctx.moveTo(60, 30);
+        ctx.lineTo(40, 60);
+        ctx.stroke();
+        ctx.fill();
+      }
+      if (chances === 2) {
+        ctx.beginPath();
+        ctx.moveTo(60, 30);
+        ctx.lineTo(80, 60);
+        ctx.stroke();
+        ctx.fill();
+      }
+      if (chances === 1) {
+        ctx.beginPath();
+        ctx.moveTo(60, 70);
+        ctx.lineTo(40, 100);
+        ctx.stroke();
+        ctx.fill();
+      }
+      if (chances < 1) {
+        ctx.beginPath();
+        ctx.moveTo(60, 70);
+        ctx.lineTo(80, 100);
+        ctx.stroke();
+        ctx.fill();
+      }
+    }  
+
+    var words = [
+      "макака",
+      "орангутанг",
+      "бабуин",
+      "шимпанзе"
+    ];
+
+    var pickWord = function(array) {
+      return array[Math.floor(Math.random() * array.length)];
+    }
+
+    var word = pickWord(words);
+
+
+    var setupAnswerArray = function() {
+      var finalArray = [];
+      for (var i = 0; i < word.length; i++) {
+        finalArray[i] = '_';
+      }
+      return finalArray;
+    }
+
+    var answerArray = setupAnswerArray(word);
+
+    var showPlayerProgress = function () {
+      return alert(answerArray.join(' '));
+    }
+
+    var remainingLetters = word.length;
+    var chances = 20;
+
+    var getGuess = function () {
+      return prompt('Введите букву');
+    }
+
+    var updateGameState = function (guess, word, answerArray) {
+      for (var j = 0; j < word.length; j++) {
+        guess = guess.toLowerCase();
+        var count = 0;
+        if (word[j] ===  guess) {
+          answerArray[j] = guess;
+          remainingLetters--;
+        }
+      }
+      chances--;
+      return remainingLetters;
+    }
+
+    var showAnswerAndCongratulatePlayer = function (answerArray) {
+      if (remainingLetters === 0) {
+        alert('Поздравляю! Вы угадали слово ' + answerArray.join('') + '!!!');
+        if (confirm('Сыграем еще?') == true) {
+          location.reload();
+        } else {
+          alert('Тогда до встречи в следующий раз ;)');
+        }   
+      }
+      if (chances === 0) {
+        if (confirm('Попытки закончились! Сыграем еще?') == true) {
+          location.reload();
+        } else {
+          alert('Тогда до встречи в следующий раз ;)');
+        }
+      }
+    }
+
+    while (remainingLetters > 0 && chances > 0) {
+      showPlayerProgress(answerArray);
+
+      var guess = getGuess();
+
+      if (guess === null) {
+        break;
+      } else if (guess.length !== 1) {
+        alert('Введите, пожалуйста, одну букву');
+      } else {
+        remainingLetters = updateGameState(guess, word, answerArray);
+      }
+      bodyPart();
+    }
+
+    showAnswerAndCongratulatePlayer(answerArray);
+
+
+
+
+  </script>
+</body>
+
+</html>
