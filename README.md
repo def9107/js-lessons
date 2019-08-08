@@ -1,2 +1,2 @@
 Выполнение заданий из книги 'Джаваскрипт для детей'
-[Игра "Виселица"](https://def9107.github.io/js-lessons/)
+[Игра "Виселица"](https://def9107.github.io/js-lessons/hangman/)
